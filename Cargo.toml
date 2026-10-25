@@ -1,0 +1,31 @@
+[package]
+name = "microbit_learns"
+version = "0.1.0"
+edition = "2021"
+description = "A micro:bit v2 that learns your gestures on itself and drives your slides"
+
+[dependencies]
+# Board, HAL, pins, the LED display driver.
+microbit-v2 = "0.16.0"
+# The accelerometer chip, by register name instead of by number.
+lsm303agr = "1.1.0"
+# A fixed-capacity Vec for the recorded windows. Nothing here allocates.
+heapless = "0.9.3"
+# expf, logf, sqrtf: there is no std on this chip.
+libm = "0.2.16"
+cortex-m = { version = "0.7.7", features = ["critical-section-single-core"] }
+cortex-m-rt = "0.7.7"
+embedded-hal = "1.0.0"
+# Debug output over the probe, and panics on the same channel.
+rtt-target = "0.6.2"
+panic-rtt-target = "0.2.0"
+
+[profile.release]
+opt-level = 3
+lto = "fat"
+codegen-units = 1
+# Symbols for probe-rs, so a crash gets a readable backtrace. Costs nothing in flash.
+debug = true
+
+[profile.dev]
+opt-level = 1
